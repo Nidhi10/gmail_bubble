@@ -1,0 +1,17 @@
+<h3> Here are your emails from <%= @messages.first.email_from %>!</h3>
+<% @messages.each do |mail|%>
+    <div>
+      <span><%= mail.recieved_date %></span>
+      <span><%= link_to "#{mail.snippet}", show_email_path(mail.message_id), {:target=> "open_here"} %></span>
+    </div>
+<% end %>
+
+<h4>What they said</h4>
+<iframe id="open_here" name="open_here" scrolling="yes" frameborder="0" onload='javascript:resizeIframe(this);'></iframe>
+
+<script language="javascript" type="text/javascript">
+    function resizeIframe(obj) {
+        obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
+        obj.style.width = obj.contentWindow.document.body.scrollWidth + 'px';
+    }
+</script>

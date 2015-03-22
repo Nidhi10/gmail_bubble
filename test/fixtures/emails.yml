@@ -1,0 +1,29 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  message_id: MyString
+  subject: MyString
+  from: MyString
+  thread_id: MyString
+  history_id: MyString
+  snippet: MyString
+  message: MyString
+  filename: MyString
+  attachment_id: MyString
+  attachment_size: MyString
+  attachment_data: MyString
+  recieved_date: MyString
+
+two:
+  message_id: MyString
+  subject: MyString
+  from: MyString
+  thread_id: MyString
+  history_id: MyString
+  snippet: MyString
+  message: MyString
+  filename: MyString
+  attachment_id: MyString
+  attachment_size: MyString
+  attachment_data: MyString
+  recieved_date: MyString

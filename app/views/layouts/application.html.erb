@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gmail</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+  <style>
+      text {
+          font: 10px sans-serif;
+      }
+
+  </style>
+
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Gmail Bubble</a>
+        </div>
+      </div>
+    </nav>
+
+        <div class="container-fluid">
+          <ul class="nav nav-tabs">
+            <li class="<%= 'active' if current_page?(email_index_path) || current_page?(root_path) %>"><%= link_to "all", email_index_path%></li>
+            <li class="<%= 'active' if current_page?(email_today_path) %>"><%= link_to "Today", email_today_path %></li>
+            <li class="<%= 'active' if current_page?(email_yesterday_path) %>"><%= link_to "Yesterday", email_yesterday_path %></li>
+          </ul>
+            <%= yield %>
+        </div><!-- /.container -->
+</body>
+</html>
