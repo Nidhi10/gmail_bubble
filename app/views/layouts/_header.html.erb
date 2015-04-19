@@ -1,0 +1,13 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <%= link_to 'Gmail Bubble', root_path,class: "navbar-brand" %>
+    </div>
+    <% if user_logged_in? %>
+        <ul class="nav navbar-nav navbar-right">
+          <li><%= link_to "#{session[:user]}",'#' %></li>
+          <li><%= link_to 'Logout', logout_sessions_path,method: 'delete' %></li>
+        </ul>
+    <% end %>
+  </div>
+</nav>

@@ -19,3 +19,11 @@
 /*    $(document).on('click','circle',(function(){
         .html("<%= j (render 'form') %>");
     }));*/
+$(function() {
+    var faye = new Faye.Client('http://localhost:9292/faye');
+    faye.subscribe('/messages/new', function (data) {
+        var result=jQuery.parseJSON(data);
+        $("#newmail").html(result[0].messages + " new emails received. Refresh the page to check them out!");
+    });
+});
+

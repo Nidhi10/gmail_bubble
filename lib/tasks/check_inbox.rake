@@ -2,6 +2,9 @@ task :check_inbox => :environment do
   client = Google::APIClient.new
   client.authorization.access_token = Token.last.fresh_token
   service = client.discovered_api('gmail')
+  user=(JSON.parse((client.execute(
+      :api_method => service.users.get_profile,
+      :parameters => {'userId' => 'me'})).body))['emailAddress']
   result = client.execute(
       :api_method => service.users.messages.list,
       :parameters => {'userId' => 'me', 'labelIds' => 'INBOX',},
@@ -9,15 +12,12 @@ task :check_inbox => :environment do
 
   messages = JSON.parse(result.body)['messages'] || []
   messages.each do |msg|
-    details=get_details(msg['id'])
-    save_details(details)
+    details=get_details(msg['id'],client,service)
+    save_details(details,user)
   end
 end
 
-def get_details(id)
-  client = Google::APIClient.new
-  client.authorization.access_token = Token.last.fresh_token
-  service = client.discovered_api('gmail')
+def get_details(id,client,service)
   result = client.execute(
       :api_method => service.users.messages.get,
       :parameters => {'userId' => 'me', 'id' => id, 'format' => 'full'},
@@ -57,8 +57,8 @@ def get_gmail_attribute(gmail_data, attribute)
           next
         end
       end
+      @mes
     end
-    @mes
   elsif attribute.eql?('body')
     gmail_data['payload']['body']
   elsif attribute.eql?('filename')
@@ -66,15 +66,15 @@ def get_gmail_attribute(gmail_data, attribute)
   end
 end
 
-def save_details(details)
-    attachment_id=''
+def save_details(details,user)
+   attachment_id=''
    attachment_data=''
-    attachment_size=''
+   attachment_size=''
    attachment_id =  details[:attachment]["attachmentId"] if details[:attachment].has_key?("attachmentId")
    attachment_data = details[:attachment]["data"] if details[:attachment].has_key?("data")
-    attachment_size = details[:attachment]["size"] if details[:attachment].has_key?("size")
+   attachment_size = details[:attachment]["size"] if details[:attachment].has_key?("size")
    Email.create(message_id: details[:id],subject:details[:subject]  ,email_from:details[:from],thread_id:details[:threadId],
                 history_id:details[:historyId],snippet:details[:snippet],message:details[:message],filename:details[:filename],
                 attachment_id:attachment_id,attachment_size:attachment_size,
-                attachment_data:attachment_data,recieved_date:details[:Date])
+                attachment_data:attachment_data,recieved_date:details[:Date],user:user)
 end

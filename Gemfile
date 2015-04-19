@@ -27,6 +27,8 @@ gem 'omniauth'
 gem 'thin'
 gem 'omniauth-google-oauth2'
 gem 'google-api-client', :require => 'google/api_client'
+gem 'sidekiq'
+gem 'faye'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0',          group: :doc
 

@@ -1,4 +1,10 @@
-
-<%# app/views/sessions/new.html.erb %>
-<%= link_to "Authenticate with Google!", '/auth/google_oauth2' %>
+<div class="container">
+    <p> Checkout your emails in a new way!</p>
+    <% if user_logged_in? %>
+        <p><%= "Welcome #{session[:user]}"%> </p>
+        <p><%= link_to "View Mails", email_index_path%> </p>
+    <% else %>
+        <%= link_to "Authenticate with Google!", '/auth/google_oauth2' %>
+    <% end %>
+</div>
 
