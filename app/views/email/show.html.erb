@@ -9,7 +9,7 @@
   <% @messages.each do |mail|%>
       <tr>
         <td><%= mail.recieved_date %></td>
-        <td><%= link_to "#{mail.snippet}", show_email_path(mail.message_id), {:target=> "open_here"} %></td>
+        <td><%= link_to "#{mail.subject}", show_email_path(mail.message_id), {:target=> "open_here"} %></td>
       </tr>
   <% end %>
 </table>

@@ -2,14 +2,14 @@ class EmailController < ApplicationController
   require 'json'
   require 'base64'
   layout false, only: :show_email
-  before_filter :authenticate!, :current_user
+  before_filter :authenticate!
   def index
-    email=Email.where(user: @current_user).group(:email_from).count.select
+    email=Email.where(user: current_user).group(:email_from).count.select
     write_json(email)
   end
 
   def today
-   email=Email.where(user: @current_user).where('recieved_date > ?', Date.today).group(:email_from).count.select
+   email=Email.where(user: current_user).where('recieved_date > ?', Date.today).group(:email_from).count.select
     write_json(email)
    respond_to do |format|
      format.html
@@ -18,21 +18,21 @@ class EmailController < ApplicationController
   end
 
   def yesterday
-    email=Email.where(user: @current_user).where('recieved_date < ? and recieved_date > ? ', Date.today,Date.yesterday).group(:email_from).count.select
+    email=Email.where(user: current_user).where('recieved_date < ? and recieved_date > ? ', Date.today,Date.yesterday).group(:email_from).count.select
     write_json(email)
   end
 
   def last_week
-    email=Email.where(user: @current_user).where('recieved_date > ? ', Date.today.beginning_of_week).group(:email_from).count.select
+    email=Email.where(user: current_user).where('recieved_date > ? ', Date.today.beginning_of_week).group(:email_from).count.select
     write_json(email)
   end
 
   def show
-      @messages= Email.where(user: @current_user ,email_from: params[:id]).order(recieved_date: :desc)
+      @messages= Email.where(user: current_user ,email_from: params[:id]).order(recieved_date: :desc)
   end
 
   def show_email
-     @message= Email.where(user: @current_user, message_id: params[:message_id]).first
+     @message= Email.where(user: current_user, message_id: params[:message_id]).first
   end
 
   private
@@ -50,17 +50,14 @@ class EmailController < ApplicationController
       f.write(']}')
       end
   end
+=begin
   def authenticate!
-    unless session[:user]
+    unless user_logged_in?
       flash[:notice]="Please login to continue."
       redirect_to root_path
     end
   end
-
-  def current_user
-    @current_user = session[:user]
-  end
-
+=end
 
 end
 
